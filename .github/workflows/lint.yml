@@ -1,0 +1,35 @@
+name: Golangci lint
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  golangci:
+    name: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-go@v3
+        with:
+          go-version: 1.19
+
+      - uses: actions/checkout@v3
+
+      - name: Setup protoc
+        run: sudo apt install -y protobuf-compiler
+
+      - name: Protoc version
+        run: protoc --version
+
+      - name: Install protobuf plugins
+        run: go install google.golang.org/protobuf/...@latest
+
+      - name: Run protoc
+        run: protoc api/v1/*.proto --go_out=. --go_opt=paths=source_relative --proto_path=.
+
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v3.1.0
+        with:
+          version: latest
