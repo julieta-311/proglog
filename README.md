@@ -1,4 +1,4 @@
-# proglog
+# proglog (WIP)
 
 Following "Distributed services with go" book by Travis Jeffery.
 
