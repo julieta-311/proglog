@@ -29,7 +29,7 @@ message ConsumeRequest {
 }
 
 message ConsumeResponse {
-	uint64 record = 2;
+	Record record = 2;
 }
 
 
