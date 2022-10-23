@@ -27,8 +27,11 @@ func newgrpcServer(config *Config) (srv *grpcServer, err error) {
 
 // NewGRPCServer creates a new gRPC server and registers
 // the log server with it.
-func NewGRPCServer(config *Config) (*grpc.Server, error) {
-	gsrv := grpc.NewServer()
+func NewGRPCServer(
+	config *Config,
+	opts ...grpc.ServerOption,
+) (*grpc.Server, error) {
+	gsrv := grpc.NewServer(opts...)
 
 	srv, err := newgrpcServer(config)
 	if err != nil {
