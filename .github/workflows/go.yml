@@ -30,6 +30,13 @@ jobs:
       env:
         GOFLAGS: -mod=mod
 
+    - name: Setup cfssl
+      run: go install github.com/cloudflare/cfssl/cmd/cfssl@v1.6.3
+    - run: go install github.com/cloudflare/cfssl/cmd/cfssljson@v1.6.3
+
+    - name: Generate test certificates
+      run: make init && make gencert
+
     - name: Setup protoc
       run: sudo apt install -y protobuf-compiler
 
