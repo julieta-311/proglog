@@ -28,13 +28,15 @@ const (
 	consumeAction  = "consume"
 )
 
-type authorizer interface {
+// Authorizer holds authorization methods.
+type Authorizer interface {
 	Authorize(subject, object, action string) error
 }
 
+// Config holds configuration for the server.
 type Config struct {
 	CommitLog  CommitLog
-	Authorizer authorizer
+	Authorizer Authorizer
 }
 
 var _ api.LogServer = (*grpcServer)(nil)
