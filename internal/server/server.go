@@ -33,10 +33,16 @@ type Authorizer interface {
 	Authorize(subject, object, action string) error
 }
 
+// GetServerer holds methods to expose available servers.
+type GetServerer interface {
+	GetServers() ([]*api.Server, error)
+}
+
 // Config holds configuration for the server.
 type Config struct {
-	CommitLog  CommitLog
-	Authorizer Authorizer
+	CommitLog   CommitLog
+	Authorizer  Authorizer
+	GetServerer GetServerer
 }
 
 var _ api.LogServer = (*grpcServer)(nil)
@@ -208,6 +214,21 @@ func (s *grpcServer) ConsumeStream(
 			req.Offset++
 		}
 	}
+}
+
+// GetServers exposes the available services to enable
+// service discovery.
+func (s *grpcServer) GetServers(
+	ctx context.Context, req *api.GetServersRequest,
+) (*api.GetServersResponse, error) {
+	servers, err := s.GetServerer.GetServers()
+	if err != nil {
+		return nil, err
+	}
+
+	return &api.GetServersResponse{
+		Servers: servers,
+	}, nil
 }
 
 // authenticate is an interceptor that reads the subject out of
