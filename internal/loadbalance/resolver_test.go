@@ -1,7 +1,9 @@
 package loadbalance_test
 
 import (
+	"fmt"
 	"net"
+	"os"
 	"testing"
 
 	"github.com/julieta-311/proglog/internal/config"
@@ -43,7 +45,7 @@ func TestResolver(t *testing.T) {
 
 	go func() {
 		if err := srv.Serve(l); err != nil {
-			t.FailNow()
+			fmt.Fprintf(os.Stderr, "server failed: %v", err)
 		}
 	}()
 
@@ -62,6 +64,7 @@ func TestResolver(t *testing.T) {
 	opts := resolver.BuildOptions{
 		DialCreds: clientCreds,
 	}
+
 	r := &loadbalance.Resolver{}
 	_, err = r.Build(
 		resolver.Target{
