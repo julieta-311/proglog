@@ -3,6 +3,7 @@ package loadbalance_test
 import (
 	"fmt"
 	"net"
+	"net/url"
 	"os"
 	"testing"
 
@@ -65,10 +66,14 @@ func TestResolver(t *testing.T) {
 		DialCreds: clientCreds,
 	}
 
+	u, err := url.Parse(fmt.Sprintf("https://%v", l.Addr().String()))
+	require.NoError(t, err)
+	require.NotNil(t, u)
+
 	r := &loadbalance.Resolver{}
 	_, err = r.Build(
 		resolver.Target{
-			Endpoint: l.Addr().String(),
+			URL: *u,
 		},
 		conn,
 		opts,
