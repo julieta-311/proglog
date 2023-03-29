@@ -155,7 +155,7 @@ func client(
 	require.NoError(t, err)
 
 	conn, err := grpc.Dial(
-		fmt.Sprintf("%s:///%s", loadbalance.Name, rpcAddr),
+		fmt.Sprintf("%s://%s", loadbalance.Name, rpcAddr),
 		opts...)
 	require.NoError(t, err)
 

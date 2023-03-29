@@ -3,6 +3,7 @@ package loadbalance_test
 import (
 	"fmt"
 	"net"
+	"net/url"
 	"os"
 	"testing"
 
@@ -68,7 +69,7 @@ func TestResolver(t *testing.T) {
 	r := &loadbalance.Resolver{}
 	_, err = r.Build(
 		resolver.Target{
-			Endpoint: l.Addr().String(),
+			URL: url.URL{Host: l.Addr().String()},
 		},
 		conn,
 		opts,
