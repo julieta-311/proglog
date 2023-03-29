@@ -50,7 +50,7 @@ func (r *Resolver) Build(
 
 	var err error
 
-	trg := target.URL.Host
+	trg := target.Endpoint //nolint:staticcheck
 	r.resolverConn, err = grpc.Dial(trg, dialOpts...)
 	if err != nil {
 		return nil, err
