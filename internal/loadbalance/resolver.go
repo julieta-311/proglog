@@ -62,7 +62,7 @@ func (r *Resolver) Build(
 
 const Name = "proglog"
 
-// Scheme returns the resolver's schem identifier, it implements
+// Scheme returns the resolver's scheme identifier, it implements
 // the resolver.Scheme method for the Resolver type to satisfy
 // the resolver.Builder interface.
 func (r *Resolver) Scheme() string {
