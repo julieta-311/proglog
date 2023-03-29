@@ -86,3 +86,9 @@ func (s *subConn) UpdateAddresses(addrs []resolver.Address) {
 }
 
 func (s *subConn) Connect() {}
+
+func (s *subConn) GetOrBuildProducer(b balancer.ProducerBuilder) (balancer.Producer, func()) {
+	return producer{}, func() {}
+}
+
+type producer struct{}
