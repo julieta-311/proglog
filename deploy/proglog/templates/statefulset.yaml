@@ -40,6 +40,7 @@ spec:
       containers:
       - name: {{ include "proglog.fullname" . }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: {{ .Values.rpcPort }}
           name: rpc
