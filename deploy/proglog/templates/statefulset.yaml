@@ -39,7 +39,7 @@ spec:
           mountPath: /var/run/proglog
       containers:
       - name: {{ include "proglog.fullname" . }}
-        image: "{{ .Values.image.repository }}@{{ .Values.image.tag }}"
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         ports:
         - containerPort: {{ .Values.rpcPort }}
           name: rpc
