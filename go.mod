@@ -1,6 +1,6 @@
 module github.com/julieta-311/proglog
 
-go 1.20
+go 1.21
 
 require (
 	github.com/casbin/casbin v1.9.1
