@@ -56,6 +56,10 @@ func setupFlags(cmd *cobra.Command) error {
 	cmd.Flags().String("acl-model-file", "", "Path to ACL model.")
 	cmd.Flags().String("acl-policy-file", "", "Path to ACL policy.")
 
+	cmd.Flags().String("server-tls-cert-file", "", "Path to server tls cert.")
+	cmd.Flags().String("server-tls-key-file", "", "Path to server tls key")
+	cmd.Flags().String("server-tls-ca-file", "", "Path to server certificate authority.")
+
 	cmd.Flags().String("peer-tls-cert-file", "", "Path to peer tls cert.")
 	cmd.Flags().String("peer-tls-key-file", "", "Path to peer tls key")
 	cmd.Flags().String("peer-tls-ca-file", "", "Path to peer certificate authority.")
