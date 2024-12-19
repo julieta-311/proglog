@@ -42,12 +42,12 @@ jobs:
     - name: Protoc version
       run: protoc --version
 
-    - run: go install google.golang.org/protobuf/...@latest
+    - run: go install google.golang.org/protobuf/...@v1.36.0
 
     - name: Install protocol compiler plugins
-      run: go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
-    - run: go install google.golang.org/grpc/...@latest
-    - run: go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+      run: go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.36.0
+    - run: go install google.golang.org/grpc/...@v1.56.3
+    - run: go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.3.0
 
     - name: Run protoc
       run: |
