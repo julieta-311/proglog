@@ -60,7 +60,7 @@ func TestAgent(t *testing.T) {
 		if i != 0 {
 			startJoinAddrs = append(
 				startJoinAddrs,
-				agents[0].Config.BindAddr,
+				agents[0].BindAddr,
 			)
 		}
 
@@ -87,7 +87,7 @@ func TestAgent(t *testing.T) {
 			require.NoError(t, err)
 			require.NoError(
 				t,
-				os.RemoveAll(agent.Config.DataDir),
+				os.RemoveAll(agent.DataDir),
 			)
 		}
 	}()
@@ -151,7 +151,7 @@ func client(
 		grpc.WithTransportCredentials(tlsCreds),
 	}
 
-	rpcAddr, err := agent.Config.RPCAddr()
+	rpcAddr, err := agent.RPCAddr()
 	require.NoError(t, err)
 
 	conn, err := grpc.Dial(

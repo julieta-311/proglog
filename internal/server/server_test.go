@@ -98,7 +98,7 @@ func setupTest(t *testing.T, fn func(*Config)) (
 
 	dir, err := os.MkdirTemp("", "server-test")
 	require.NoError(t, err)
-	defer os.RemoveAll(dir)
+	defer func() { require.NoError(t, os.RemoveAll(dir)) }()
 
 	clog, err := log.NewLog(dir, log.Config{})
 	require.NoError(t, err)
@@ -152,12 +152,17 @@ func setupTest(t *testing.T, fn func(*Config)) (
 
 	return rootClient, nobodyClient, cfg, func() {
 		server.Stop()
-		rootConn.Close()
-		nobodyConn.Close()
-		l.Close()
+		if err := rootConn.Close(); err != nil {
+			t.Logf("closing root conn: %v", err)
+		}
+		if err := nobodyConn.Close(); err != nil {
+			t.Logf("closing nobody conn: %v", err)
+		}
+		if err := l.Close(); err != nil {
+			t.Logf("failed to close: %v", err)
+		}
 
-		err = clog.Remove()
-		require.NoError(t, err)
+		require.NoError(t, clog.Remove())
 
 		if telemetryExporter != nil {
 			time.Sleep(1500 * time.Millisecond)

@@ -15,7 +15,7 @@ var (
 func TestStoreAppendRead(t *testing.T) {
 	f, err := os.CreateTemp("", "store_append_read_test")
 	require.NoError(t, err)
-	defer os.Remove(f.Name())
+	defer func() { require.NoError(t, os.Remove(f.Name())) }()
 
 	s, err := newStore(f)
 	require.NoError(t, err)
@@ -71,10 +71,20 @@ func testReadAt(t *testing.T, s *store) {
 	}
 }
 
+// removeFileIfExists is a wrapper for os.Remove that ignores the error
+// if related to the file in question not existing.
+func removeFileIfExists(fileName string) error {
+	if err := os.Remove(fileName); err != nil && !os.IsNotExist(err) {
+		return err
+	}
+
+	return nil
+}
+
 func TestStoreClose(t *testing.T) {
 	f, err := os.CreateTemp("", "store_close_test")
 	require.NoError(t, err)
-	defer os.Remove(f.Name())
+	defer func() { require.NoError(t, removeFileIfExists(f.Name())) }()
 
 	s, err := newStore(f)
 	require.NoError(t, err)

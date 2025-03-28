@@ -107,12 +107,12 @@ func (a *Agent) setupLogger() error {
 }
 
 func (a *Agent) setupMux() error {
-	addr, err := net.ResolveTCPAddr("tcp", a.Config.BindAddr)
+	addr, err := net.ResolveTCPAddr("tcp", a.BindAddr)
 	if err != nil {
 		return err
 	}
 
-	rpcAddr := fmt.Sprintf("%s:%d", addr.IP.String(), a.Config.RPCPort)
+	rpcAddr := fmt.Sprintf("%s:%d", addr.IP.String(), a.RPCPort)
 	ln, err := net.Listen("tcp", rpcAddr)
 	if err != nil {
 		return err
@@ -135,30 +135,30 @@ func (a *Agent) setupLog() error {
 	logConfig := log.Config{}
 	logConfig.Raft.StreamLayer = log.NewStreamLayer(
 		raftLn,
-		a.Config.ServerTLSConfig,
-		a.Config.PeerTLSConfig,
+		a.ServerTLSConfig,
+		a.PeerTLSConfig,
 	)
 
-	rpcAddr, err := a.Config.RPCAddr()
+	rpcAddr, err := a.RPCAddr()
 	if err != nil {
 		return err
 	}
 	logConfig.Raft.BindAddr = rpcAddr
 
 	logConfig.Raft.LocalID = raft.ServerID(
-		a.Config.NodeName,
+		a.NodeName,
 	)
-	logConfig.Raft.Bootstrap = a.Config.Bootstrap
+	logConfig.Raft.Bootstrap = a.Bootstrap
 
 	a.log, err = log.NewDistributedLog(
-		a.Config.DataDir,
+		a.DataDir,
 		logConfig,
 	)
 	if err != nil {
 		return err
 	}
 
-	if a.Config.Bootstrap {
+	if a.Bootstrap {
 		err = a.log.WaitForLeader(3 * time.Second)
 	}
 	return err
@@ -166,8 +166,8 @@ func (a *Agent) setupLog() error {
 
 func (a *Agent) setupServer() error {
 	authorizer := auth.New(
-		a.Config.ACLModelFile,
-		a.Config.ACLPolicyFile,
+		a.ACLModelFile,
+		a.ACLPolicyFile,
 	)
 
 	serverConfig := &server.Config{
@@ -177,9 +177,9 @@ func (a *Agent) setupServer() error {
 	}
 
 	var opts []grpc.ServerOption
-	if a.Config.ServerTLSConfig != nil {
+	if a.ServerTLSConfig != nil {
 		creds := credentials.NewTLS(
-			a.Config.ServerTLSConfig,
+			a.ServerTLSConfig,
 		)
 		opts = append(opts, grpc.Creds(creds))
 	}
@@ -204,18 +204,18 @@ func (a *Agent) setupServer() error {
 // distributed log when a server joins or leaves the
 // cluster so it can handle replication.
 func (a *Agent) setupMembership() error {
-	rpcAddr, err := a.Config.RPCAddr()
+	rpcAddr, err := a.RPCAddr()
 	if err != nil {
 		return err
 	}
 
 	a.membership, err = discovery.New(a.log, discovery.Config{
-		NodeName: a.Config.NodeName,
-		BindAddr: a.Config.BindAddr,
+		NodeName: a.NodeName,
+		BindAddr: a.BindAddr,
 		Tags: map[string]string{
 			"rpc_addr": rpcAddr,
 		},
-		StartJoinAddrs: a.Config.StartJoinAddrs,
+		StartJoinAddrs: a.StartJoinAddrs,
 	})
 
 	return err
