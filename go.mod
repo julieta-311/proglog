@@ -1,8 +1,6 @@
 module github.com/julieta-311/proglog
 
-go 1.23.0
-
-toolchain go1.23.6
+go 1.24.1
 
 require (
 	github.com/casbin/casbin v1.9.1
