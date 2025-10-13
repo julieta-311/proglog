@@ -14,9 +14,9 @@ jobs:
     name: lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/setup-go@v5
+      - uses: actions/setup-go@v6
         with:
-          go-version: 1.24
+          go-version: 1.25
 
       - uses: actions/checkout@v4
 
@@ -41,7 +41,7 @@ jobs:
             --proto_path=.
 
       - name: golangci-lint
-        uses: golangci/golangci-lint-action@v7
+        uses: golangci/golangci-lint-action@v8
         with:
           args: --enable lll
-          version: "v2.0.1"
+          version: "v2.5.0"
