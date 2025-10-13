@@ -21,7 +21,6 @@ gencert:
 		-ca-key=ca-key.pem \
 		-config=test/ca-config.json \
 		-profile=client \
-		-cn="root" \
 		test/client-csr.json | cfssljson -bare root-client
 
 	cfssl gencert \

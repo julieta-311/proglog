@@ -1,17 +1,17 @@
 {
-	"CN": "client",
-	"hosts": [""],
-	"key": {
-		"algo": "rsa",
-		"size": 2048
-	},
-	"names": [
-		{
-			"C": "GB",
-			"L": "London",
-			"O": "This is it Ltd",
-			"OU": "Secret logs division",
-			"ST": "London"
-		}
-	]
+  "CN": "root",
+  "hosts": ["localhost"],
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  },
+  "names": [
+    {
+      "C": "GB",
+      "L": "London",
+      "O": "This is it Ltd",
+      "OU": "Secret logs division",
+      "ST": "London"
+    }
+  ]
 }
