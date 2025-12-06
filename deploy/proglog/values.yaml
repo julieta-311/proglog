@@ -1,5 +1,6 @@
+---
 # Default values for proglog.
-image: 
+image:
   repository: github.com/julieta-311/proglog
   tag: 0.0.1
   pullPolicy: IfNotPresent
