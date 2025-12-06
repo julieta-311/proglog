@@ -1,3 +1,4 @@
+---
 name: Golangci lint
 on:
   push:

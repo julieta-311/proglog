@@ -1,3 +1,4 @@
+---
 apiVersion: v2
 name: proglog
 description: A Helm chart for Kubernetes
