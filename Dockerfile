@@ -1,4 +1,4 @@
-FROM golang:1.21.5-alpine3.19 AS build
+FROM golang:1.25.5-alpine3.23 AS build
 WORKDIR /go/src/proglog
 COPY . .
 RUN CGO_ENABLED=0 go build -o /go/bin/proglog ./cmd/proglog
