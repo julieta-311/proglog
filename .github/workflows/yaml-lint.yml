@@ -10,6 +10,8 @@ on:
 jobs:
   yamllint:
     name: YAML Lint
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
