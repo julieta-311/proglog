@@ -154,7 +154,7 @@ func client(
 	rpcAddr, err := agent.RPCAddr()
 	require.NoError(t, err)
 
-	conn, err := grpc.Dial(
+	conn, err := grpc.NewClient(
 		fmt.Sprintf("%s://%s", loadbalance.Name, rpcAddr),
 		opts...)
 	require.NoError(t, err)

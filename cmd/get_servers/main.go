@@ -16,7 +16,7 @@ func main() {
 	addr := flag.String("addr", ":8402", "service address")
 	flag.Parse()
 
-	conn, err := grpc.Dial(*addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.NewClient(*addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatal(err)
 	}
