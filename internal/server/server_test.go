@@ -67,7 +67,7 @@ func setupTest(t *testing.T, fn func(*Config)) (
 		opts := []grpc.DialOption{
 			grpc.WithTransportCredentials(tlsCreds),
 		}
-		conn, err := grpc.Dial(l.Addr().String(), opts...)
+		conn, err := grpc.NewClient(l.Addr().String(), opts...)
 		require.NoError(t, err)
 
 		client := api.NewLogClient(conn)
