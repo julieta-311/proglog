@@ -78,6 +78,7 @@ func setupTest() (*loadbalance.Picker, []*subConn) {
 
 // subConn implements the balancer.SubConn interface.
 type subConn struct {
+	balancer.SubConn
 	addrs []resolver.Address
 }
 
